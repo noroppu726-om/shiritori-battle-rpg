@@ -33,9 +33,29 @@ export function isHiragana(word: string): boolean {
   return HIRAGANA_ONLY.test(word) && !word.includes('ー');
 }
 
-/** MVP rule: last character is simply the final character of the string */
+/**
+ * Small kana normalize to their full-size form for connecting, matching the
+ * standard shiritori rule (e.g. じてんしゃ → や). No Japanese word begins with a
+ * small kana, so without this a word ending in one is a dead end that soft-locks
+ * the game.
+ */
+const SMALL_KANA_MAP: Record<string, string> = {
+  ぁ: 'あ',
+  ぃ: 'い',
+  ぅ: 'う',
+  ぇ: 'え',
+  ぉ: 'お',
+  ゃ: 'や',
+  ゅ: 'ゆ',
+  ょ: 'よ',
+  っ: 'つ',
+  ゎ: 'わ',
+};
+
+/** last character used for connecting; small kana are normalized to full size */
 export function getLastChar(word: string): string {
-  return word.slice(-1);
+  const raw = word.slice(-1);
+  return SMALL_KANA_MAP[raw] ?? raw;
 }
 
 /** R2: word must start with the previous word's last character; no previous char means anything goes */
@@ -70,7 +90,16 @@ export function validatePlayerWord(word: string, state: ShiritoriState): Validat
   if (!isHiragana(word)) {
     return { ok: false, reason: 'notHiragana' };
   }
-  if (!isConnected(word, state.lastChar)) {
+
+  const effectiveLastChar =
+    state.lastChar &&
+    getWordsByInitial(state.lastChar).some(
+      (entry) => !state.usedWords.has(entry.word) && !endsWithN(entry.word),
+    )
+      ? state.lastChar
+      : null;
+
+  if (!isConnected(word, effectiveLastChar)) {
     return { ok: false, reason: 'notConnected' };
   }
   if (isWordUsed(word, state.usedWords)) {
@@ -85,7 +114,11 @@ export function validatePlayerWord(word: string, state: ShiritoriState): Validat
   return { ok: true };
 }
 
-/** R6: pick a random valid reply for the enemy, or null if none exists (R7) */
+/**
+ * R6: pick a random valid reply for the enemy, or null if none exists (R7).
+ * Prefer replies that still leave the player at least one legal follow-up, so
+ * a normal playthrough cannot be ended by an unavoidable dictionary dead end.
+ */
 export function pickEnemyWord(startChar: string, usedWords: ReadonlySet<string>): string | null {
   const candidates = getWordsByInitial(startChar).filter(
     (entry) => !usedWords.has(entry.word) && !endsWithN(entry.word),
@@ -95,8 +128,16 @@ export function pickEnemyWord(startChar: string, usedWords: ReadonlySet<string>)
     return null;
   }
 
-  const index = Math.floor(Math.random() * candidates.length);
-  return candidates[index].word;
+  const playableCandidates = candidates.filter((entry) => {
+    const usedAfterReply = new Set(usedWords);
+    usedAfterReply.add(entry.word);
+    return getWordsByInitial(getLastChar(entry.word)).some(
+      (nextEntry) => !usedAfterReply.has(nextEntry.word) && !endsWithN(nextEntry.word),
+    );
+  });
+  const pool = playableCandidates.length > 0 ? playableCandidates : candidates;
+  const index = Math.floor(Math.random() * pool.length);
+  return pool[index].word;
 }
 
 /**

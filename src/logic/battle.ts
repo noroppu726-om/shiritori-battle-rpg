@@ -8,7 +8,7 @@ const NATURE_DEFENSE_REDUCTION = 2; // R11
 const EMOTION_COMBO_STEP = 0.5; // R13
 const CHANCE_DAMAGE = 3; // R7: enemy can't reply, player gets a free hit
 
-export const DEFAULT_PLAYER_MAX_HP = 20;
+export const DEFAULT_PLAYER_MAX_HP = 100;
 
 /**
  * Flat modifiers contributed by the player's owned skills (see
@@ -70,7 +70,7 @@ export function createInitialBattleState(
   playerHp: number = playerMaxHp,
 ): BattleState {
   return {
-    playerHp: Math.min(playerMaxHp, Math.max(0, playerHp)),
+    playerHp: playerMaxHp,
     playerMaxHp,
     enemyHp: enemy.maxHp,
     enemyMaxHp: enemy.maxHp,

@@ -134,6 +134,20 @@ export const WORDS: WordEntry[] = [
   { word: 'たから', category: 'normal' },
   { word: 'なかま', category: 'normal' },
 
+  // Bridge words: give every "sink" ending character (ぬ ぎ だ る げ ち み ぜ べ び ろ)
+  // at least one word that STARTS with it, so the shiritori chain can never dead-end
+  // and the game stays completable. Each ends on a well-covered character.
+  { word: 'ぬま', category: 'nature' },
+  { word: 'ぎゅうにゅう', category: 'food' },
+  { word: 'だるま', category: 'normal' },
+  { word: 'るす', category: 'normal' },
+  { word: 'げた', category: 'tool' },
+  { word: 'ちきゅう', category: 'nature' },
+  { word: 'みなと', category: 'nature' },
+  { word: 'ぜんまい', category: 'tool' },
+  { word: 'べんとう', category: 'food' },
+  { word: 'びわ', category: 'food' },
+  { word: 'ろば', category: 'animal' },
 ];
 
 const WORD_INDEX = new Map(WORDS.map((entry) => [entry.word, entry]));
