@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "test:r53": "node scripts/e2e-sim.bundle.mjs --monte 200"
+    "test:r53": "node scripts/e2e-sim.bundle.mjs --monte 200",
+    "validate:words": "node scripts/validate-words.bundle.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

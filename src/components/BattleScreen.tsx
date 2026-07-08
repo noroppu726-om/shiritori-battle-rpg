@@ -7,7 +7,7 @@ import {
   tryConsumeHirameki,
   type SkillId,
 } from '../data/skills';
-import { findWord } from '../data/words';
+import { findWord, getWordsByInitial } from '../data/words';
 import { useTurnTimer } from '../hooks/useTurnTimer';
 import {
   applyChanceDamage,
@@ -17,7 +17,7 @@ import {
   createInitialBattleState,
   type BattleState,
 } from '../logic/battle';
-import { getLastChar, resolveEnemyTurn, validatePlayerWord, type ValidationReason } from '../logic/shiritori';
+import { getLastKey, resolveEnemyTurn, validatePlayerWord, type ValidationReason } from '../logic/shiritori';
 import type { Enemy } from '../types';
 import { DictionaryModal } from './DictionaryModal';
 
@@ -43,16 +43,22 @@ function errorMessageFor(reason: ValidationReason | undefined, lastChar: string 
   switch (reason) {
     case 'notHiragana':
       return 'ひらがなだけで入力してください';
+    case 'invalidEnding':
+      return '「っ」で終わる言葉は使えません';
     case 'notConnected':
       return lastChar ? `「${lastChar}」から始まる言葉を入力してください` : '言葉を入力してください';
     case 'alreadyUsed':
       return 'その言葉はもう使われています';
     case 'notInDict':
-      return 'その言葉は辞書にありません';
+      return 'このゲームではまだ使えないことばです';
     default:
       return '入力を確認してください';
   }
 }
+
+const SUGGESTION_COUNT = 4;
+/** shown after two or more consecutive failures on the same required starting key (R-UX8) */
+const SUGGESTION_FAIL_THRESHOLD = 2;
 
 export function BattleScreen({
   stage,
@@ -71,15 +77,27 @@ export function BattleScreen({
   const [turnNumber, setTurnNumber] = useState(0);
   const [isOver, setIsOver] = useState(false);
   const [isDictionaryOpen, setIsDictionaryOpen] = useState(false);
+  const [failStreak, setFailStreak] = useState<{ key: string | null; count: number }>({ key: null, count: 0 });
 
   const skillMods = useMemo(() => computeSkillMods(ownedSkills), [ownedSkills]);
   const [skillRuntime] = useState(() => createSkillBattleRuntime(ownedSkills));
 
   const shiritoriState = useMemo(() => {
     const usedWords = new Set(history.map((entry) => entry.word));
-    const lastChar = history.length > 0 ? getLastChar(history[history.length - 1].word) : null;
+    const lastChar = history.length > 0 ? getLastKey(history[history.length - 1].word) : null;
     return { lastChar, usedWords };
   }, [history]);
+
+  /** R-UX8: after repeated failures on the same required starting key, surface a few example words */
+  const suggestions = useMemo(() => {
+    if (failStreak.key === null || failStreak.count < SUGGESTION_FAIL_THRESHOLD) {
+      return [];
+    }
+    return getWordsByInitial(failStreak.key)
+      .filter((entry) => !shiritoriState.usedWords.has(entry.word))
+      .slice(0, SUGGESTION_COUNT)
+      .map((entry) => entry.word);
+  }, [failStreak, shiritoriState.usedWords]);
 
   const { remainingSeconds } = useTurnTimer({
     isPlayerTurn: !isOver,
@@ -122,10 +140,14 @@ export function BattleScreen({
       }
 
       setErrorMessage(errorMessageFor(validation.reason, shiritoriState.lastChar));
+      setFailStreak((prev) =>
+        prev.key === shiritoriState.lastChar ? { key: prev.key, count: prev.count + 1 } : { key: shiritoriState.lastChar, count: 1 },
+      );
       return;
     }
 
     setErrorMessage(null);
+    setFailStreak({ key: null, count: 0 });
 
     const entry = findWord(word);
     if (!entry) {
@@ -148,7 +170,7 @@ export function BattleScreen({
 
     const usedWordsAfterPlayer = new Set(shiritoriState.usedWords);
     usedWordsAfterPlayer.add(word);
-    const enemyTurn = resolveEnemyTurn(getLastChar(word), usedWordsAfterPlayer);
+    const enemyTurn = resolveEnemyTurn(getLastKey(word), usedWordsAfterPlayer);
 
     if (enemyTurn.type === 'stuck') {
       const chanceResult = applyChanceDamage(playerResult.state);
@@ -284,6 +306,27 @@ export function BattleScreen({
         <p className="error-text" role="alert">
           {errorMessage}
         </p>
+      )}
+
+      {suggestions.length > 0 && (
+        <section className="suggestion-panel" aria-label="ことばの候補">
+          <p className="suggestion-label">
+            「{failStreak.key}」から始まることばの例：
+          </p>
+          <div className="suggestion-list">
+            {suggestions.map((word) => (
+              <button
+                key={word}
+                type="button"
+                className="suggestion-chip"
+                onClick={() => setInput(word)}
+                disabled={isOver}
+              >
+                {word}
+              </button>
+            ))}
+          </div>
+        </section>
       )}
 
       <section className="message-panel" aria-live="polite" aria-label="直近の結果">

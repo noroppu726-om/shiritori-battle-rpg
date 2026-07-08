@@ -442,6 +442,52 @@ button {
   text-align: center;
 }
 
+.suggestion-panel {
+  display: flex;
+  width: min(100%, 28rem);
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.85rem;
+  padding: 0.6rem 0.9rem;
+  background: rgba(255, 244, 214, 0.85);
+  border: 3px dashed rgba(132, 91, 26, 0.35);
+}
+
+.suggestion-label {
+  margin: 0;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #5a3d0f;
+}
+
+.suggestion-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.suggestion-chip {
+  border: none;
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  background: #ffd27a;
+  color: #5a3d0f;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 0.2rem 0 #b46615;
+}
+
+.suggestion-chip:active {
+  transform: translateY(0.15rem);
+  box-shadow: 0 0.05rem 0 rgba(84, 55, 14, 0.45);
+}
+
+.suggestion-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .message-panel {
   display: flex;
   width: min(100%, 28rem);

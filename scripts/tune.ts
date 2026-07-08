@@ -10,7 +10,7 @@ import {
   type BattleState,
   type SkillModifiers,
 } from '../src/logic/battle';
-import { validatePlayerWord, resolveEnemyTurn, getLastChar, endsWithN, type ShiritoriState } from '../src/logic/shiritori';
+import { validatePlayerWord, resolveEnemyTurn, getFirstKey, getLastKey, endsWithN, type ShiritoriState } from '../src/logic/shiritori';
 import { computeSkillMods, rollSkillChoices, type SkillId } from '../src/data/skills';
 import type { Enemy, WordEntry } from '../src/types';
 
@@ -32,12 +32,12 @@ function damageOf(e: WordEntry, m: SkillModifiers, combo: number): number {
 }
 const healOf = (e: WordEntry, m: SkillModifiers) => (e.category === 'food' ? 2 + (m.bonusHeal ?? 0) : 0);
 const startsWith = (ch: string, used: ReadonlySet<string>) =>
-  WORDS.filter((w) => getLastChar(w.word) !== 'ん' && w.word.charAt(0) === ch && !used.has(w.word));
+  WORDS.filter((w) => getLastKey(w.word) !== 'ん' && getFirstKey(w.word) === ch && !used.has(w.word));
 function isSafe(w: WordEntry, used: ReadonlySet<string>): boolean {
   const a = new Set(used); a.add(w.word);
-  const r = startsWith(getLastChar(w.word), a);
+  const r = startsWith(getLastKey(w.word), a);
   if (r.length === 0) return true;
-  return r.some((x) => { const b = new Set(a); b.add(x.word); return startsWith(getLastChar(x.word), b).length > 0; });
+  return r.some((x) => { const b = new Set(a); b.add(x.word); return startsWith(getLastKey(x.word), b).length > 0; });
 }
 function choose(sh: ShiritoriState, st: BattleState, m: SkillModifiers): WordEntry | null {
   const legal = WORDS.filter((e) => validatePlayerWord(e.word, sh).ok);
@@ -69,11 +69,11 @@ function playStage(i: number, carriedHp: number, owned: SkillId[], o: Opts) {
       if (o.chainReset && lastChar !== null) { lastChar = null; choice = choose({ lastChar, usedWords: used }, st, m); }
       if (!choice) return { cleared: false, hp: st.playerHp, words, reason: 'stuck' };
     }
-    const atk = applyPlayerAttack(st, choice, m); st = atk.state; used.add(choice.word); lastChar = getLastChar(choice.word); words++;
+    const atk = applyPlayerAttack(st, choice, m); st = atk.state; used.add(choice.word); lastChar = getLastKey(choice.word); words++;
     if (atk.outcome === 'stageClear') return { cleared: true, hp: st.playerHp, words };
     const et = resolveEnemyTurn(lastChar, used);
     if (et.type === 'stuck') { const c = applyChanceDamage(st); st = c.state; if (c.outcome === 'stageClear') return { cleared: true, hp: st.playerHp, words }; continue; }
-    used.add(et.word); lastChar = getLastChar(et.word);
+    used.add(et.word); lastChar = getLastKey(et.word);
     const e = applyEnemyAttack(st, enemy, et.word, m); st = e.state;
     if (e.outcome === 'gameOver') return { cleared: false, hp: 0, words, reason: 'dead' };
   }

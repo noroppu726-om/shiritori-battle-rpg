@@ -28,7 +28,8 @@ import {
 import {
   validatePlayerWord,
   resolveEnemyTurn,
-  getLastChar,
+  getFirstKey,
+  getLastKey,
   endsWithN,
   type ShiritoriState,
 } from '../src/logic/shiritori';
@@ -65,18 +66,18 @@ function healOf(entry: WordEntry, mods: SkillModifiers): number {
 }
 
 const startsWith = (ch: string, used: ReadonlySet<string>) =>
-  WORDS.filter((w) => getLastChar(w.word) !== 'ん' && w.word.charAt(0) === ch && !used.has(w.word));
+  WORDS.filter((w) => getLastKey(w.word) !== 'ん' && getFirstKey(w.word) === ch && !used.has(w.word));
 
 /** true if, after we play w, we can still answer whatever the enemy replies (anti-softlock). */
 function isSafe(w: WordEntry, used: ReadonlySet<string>): boolean {
   const afterMe = new Set(used);
   afterMe.add(w.word);
-  const enemyReplies = startsWith(getLastChar(w.word), afterMe);
+  const enemyReplies = startsWith(getLastKey(w.word), afterMe);
   if (enemyReplies.length === 0) return true; // enemy stuck -> chance damage, we keep the turn
   return enemyReplies.some((r) => {
     const afterEnemy = new Set(afterMe);
     afterEnemy.add(r.word);
-    return startsWith(getLastChar(r.word), afterEnemy).length > 0;
+    return startsWith(getLastKey(r.word), afterEnemy).length > 0;
   });
 }
 
@@ -130,7 +131,7 @@ function playStage(stageIndex: number, carriedHp: number, owned: SkillId[]): Sta
     const atk = applyPlayerAttack(state, choice, mods);
     state = atk.state;
     used.add(choice.word);
-    lastChar = getLastChar(choice.word);
+    lastChar = getLastKey(choice.word);
     wordCount++;
     if (atk.outcome === 'stageClear') return { cleared: true, hp: state.playerHp, words: wordCount };
 
@@ -142,7 +143,7 @@ function playStage(stageIndex: number, carriedHp: number, owned: SkillId[]): Sta
       continue;
     }
     used.add(enemyTurn.word);
-    lastChar = getLastChar(enemyTurn.word);
+    lastChar = getLastKey(enemyTurn.word);
     const eatk = applyEnemyAttack(state, enemy, enemyTurn.word, mods);
     state = eatk.state;
     if (eatk.outcome === 'gameOver') return { cleared: false, hp: 0, words: wordCount, reason: `defeated by ${enemy.name}` };

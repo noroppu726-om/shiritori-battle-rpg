@@ -7,7 +7,17 @@ export interface DictionaryModalProps {
   onClose: () => void;
 }
 
-const CATEGORY_ORDER: WordCategory[] = ['animal', 'food', 'nature', 'tool', 'emotion', 'normal'];
+const CATEGORY_ORDER: WordCategory[] = [
+  'animal',
+  'food',
+  'nature',
+  'tool',
+  'place',
+  'body',
+  'emotion',
+  'life',
+  'normal',
+];
 
 export function DictionaryModal({ onClose }: DictionaryModalProps) {
   const [query, setQuery] = useState('');

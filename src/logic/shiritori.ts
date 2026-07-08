@@ -1,11 +1,11 @@
 import { findWord, getWordsByInitial } from '../data/words';
+import { getFirstKey, getLastKey, isHiragana, isInvalidEnding, normalizeWordInput } from './kana';
 
-// U+3041(ぁ)-U+3093(ん) covers hiragana; U+30FC (ー, long vowel mark) is
-// outside this range already, but is called out explicitly per spec.
-const HIRAGANA_ONLY = /^[ぁ-ん]+$/;
+export { getFirstKey, getLastKey, isHiragana, isInvalidEnding, normalizeWordInput };
 
 export type ValidationReason =
   | 'notHiragana'
+  | 'invalidEnding'
   | 'notInDict'
   | 'notConnected'
   | 'alreadyUsed'
@@ -19,7 +19,7 @@ export interface ValidationResult {
 }
 
 export interface ShiritoriState {
-  /** last character to connect from; null means the game just started (any word allowed) */
+  /** mora key to connect from (1 or 2 chars, see getLastKey); null means the game just started (any word allowed) */
   lastChar: string | null;
   usedWords: ReadonlySet<string>;
 }
@@ -28,42 +28,17 @@ export type EnemyTurnResult =
   | { type: 'word'; word: string }
   | { type: 'stuck' };
 
-/** R1: only hiragana words are allowed (no katakana/kanji/alphanumerics/symbols/long vowel mark) */
-export function isHiragana(word: string): boolean {
-  return HIRAGANA_ONLY.test(word) && !word.includes('ー');
-}
-
-/**
- * Small kana normalize to their full-size form for connecting, matching the
- * standard shiritori rule (e.g. じてんしゃ → や). No Japanese word begins with a
- * small kana, so without this a word ending in one is a dead end that soft-locks
- * the game.
- */
-const SMALL_KANA_MAP: Record<string, string> = {
-  ぁ: 'あ',
-  ぃ: 'い',
-  ぅ: 'う',
-  ぇ: 'え',
-  ぉ: 'お',
-  ゃ: 'や',
-  ゅ: 'ゆ',
-  ょ: 'よ',
-  っ: 'つ',
-  ゎ: 'わ',
-};
-
-/** last character used for connecting; small kana are normalized to full size */
-export function getLastChar(word: string): string {
-  const raw = word.slice(-1);
-  return SMALL_KANA_MAP[raw] ?? raw;
-}
-
-/** R2: word must start with the previous word's last character; no previous char means anything goes */
-export function isConnected(word: string, lastChar: string | null): boolean {
-  if (lastChar === null) {
+/** R2: word's first mora must match the previous word's connecting key; no previous key means anything goes */
+export function isConnected(word: string, lastKey: string | null): boolean {
+  if (lastKey === null) {
     return true;
   }
-  return word.charAt(0) === lastChar;
+  return getFirstKey(word) === lastKey;
+}
+
+/** whether nextWord may legally follow prevWord in a shiritori chain, ignoring dictionary/used-word state */
+export function canConnect(prevWord: string, nextWord: string): boolean {
+  return getFirstKey(nextWord) === getLastKey(prevWord);
 }
 
 /** R3: word must not already be in the used-words set (player + enemy combined) */
@@ -78,7 +53,7 @@ export function isInDictionary(word: string): boolean {
 
 /** R4: word ends with 'ん' */
 export function endsWithN(word: string): boolean {
-  return getLastChar(word) === 'ん';
+  return getLastKey(word) === 'ん';
 }
 
 /**
@@ -89,6 +64,9 @@ export function endsWithN(word: string): boolean {
 export function validatePlayerWord(word: string, state: ShiritoriState): ValidationResult {
   if (!isHiragana(word)) {
     return { ok: false, reason: 'notHiragana' };
+  }
+  if (isInvalidEnding(word)) {
+    return { ok: false, reason: 'invalidEnding' };
   }
 
   const effectiveLastChar =
@@ -131,7 +109,7 @@ export function pickEnemyWord(startChar: string, usedWords: ReadonlySet<string>)
   const playableCandidates = candidates.filter((entry) => {
     const usedAfterReply = new Set(usedWords);
     usedAfterReply.add(entry.word);
-    return getWordsByInitial(getLastChar(entry.word)).some(
+    return getWordsByInitial(getLastKey(entry.word)).some(
       (nextEntry) => !usedAfterReply.has(nextEntry.word) && !endsWithN(nextEntry.word),
     );
   });

@@ -3,7 +3,10 @@ export type WordCategory =
   | 'food'
   | 'nature'
   | 'tool'
+  | 'place'
+  | 'body'
   | 'emotion'
+  | 'life'
   | 'normal';
 
 export interface WordEntry {
