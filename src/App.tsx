@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import './App.css';
 import { BattleScreen } from './components/BattleScreen';
+import { DictionaryModal } from './components/DictionaryModal';
 import { ENEMIES } from './data/enemies';
 import { getSkillDefinition, rollSkillChoices, type SkillId } from './data/skills';
 import { DEFAULT_PLAYER_MAX_HP } from './logic/battle';
@@ -78,6 +79,8 @@ function OpeningScreen({ onContinue }: { onContinue: () => void }) {
 }
 
 function TitleScreen({ onStart }: { onStart: () => void }) {
+  const [isDictionaryOpen, setIsDictionaryOpen] = useState(false);
+
   return (
     <main className="app-screen title-screen screen-fade" aria-labelledby="title-heading">
       <div className="title-crown" aria-hidden="true">
@@ -92,6 +95,10 @@ function TitleScreen({ onStart }: { onStart: () => void }) {
         はじめから
       </button>
 
+      <button className="secondary-button" type="button" onClick={() => setIsDictionaryOpen(true)}>
+        📖 辞書を見る
+      </button>
+
       <details className="how-to-play" open>
         <summary>あそびかた</summary>
         <ul>
@@ -102,6 +109,8 @@ function TitleScreen({ onStart }: { onStart: () => void }) {
       </details>
 
       <p className="credit">制作: ことばクエスト開発チーム / Emoji & CSS Edition</p>
+
+      {isDictionaryOpen && <DictionaryModal onClose={() => setIsDictionaryOpen(false)} />}
     </main>
   );
 }

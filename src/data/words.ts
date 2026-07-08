@@ -1,4 +1,13 @@
-import type { WordEntry } from '../types';
+import type { WordCategory, WordEntry } from '../types';
+
+export const CATEGORY_LABELS: Record<WordCategory, string> = {
+  animal: 'どうぶつ',
+  food: 'たべもの',
+  nature: 'しぜん',
+  tool: 'どうぐ',
+  emotion: 'きもち',
+  normal: 'ふつう',
+};
 
 export const WORDS: WordEntry[] = [
   // animal

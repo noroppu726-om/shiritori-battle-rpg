@@ -19,6 +19,7 @@ import {
 } from '../logic/battle';
 import { getLastChar, resolveEnemyTurn, validatePlayerWord, type ValidationReason } from '../logic/shiritori';
 import type { Enemy } from '../types';
+import { DictionaryModal } from './DictionaryModal';
 
 interface HistoryEntry {
   speaker: 'player' | 'enemy';
@@ -69,6 +70,7 @@ export function BattleScreen({
   const [input, setInput] = useState('');
   const [turnNumber, setTurnNumber] = useState(0);
   const [isOver, setIsOver] = useState(false);
+  const [isDictionaryOpen, setIsDictionaryOpen] = useState(false);
 
   const skillMods = useMemo(() => computeSkillMods(ownedSkills), [ownedSkills]);
   const [skillRuntime] = useState(() => createSkillBattleRuntime(ownedSkills));
@@ -82,6 +84,7 @@ export function BattleScreen({
   const { remainingSeconds } = useTurnTimer({
     isPlayerTurn: !isOver,
     turnKey: turnNumber,
+    isPaused: isDictionaryOpen,
     onBeforeTimeout: () => tryConsumeHirameki(skillRuntime),
     onTimeout: handleTimeout,
   });
@@ -201,7 +204,17 @@ export function BattleScreen({
 
   return (
     <main className="app-screen battle-screen screen-fade" aria-labelledby="battle-heading">
-      <p className="stage-label">ステージ {stage}</p>
+      <div className="battle-top-row">
+        <p className="stage-label">ステージ {stage}</p>
+        <button
+          className="dictionary-open-button"
+          type="button"
+          onClick={() => setIsDictionaryOpen(true)}
+          aria-label="辞書を見る"
+        >
+          📖 辞書
+        </button>
+      </div>
       <h1 id="battle-heading" className="visually-hidden">
         バトル画面
       </h1>
@@ -312,6 +325,8 @@ export function BattleScreen({
           ))}
         </ul>
       </section>
+
+      {isDictionaryOpen && <DictionaryModal onClose={() => setIsDictionaryOpen(false)} />}
     </main>
   );
 }
