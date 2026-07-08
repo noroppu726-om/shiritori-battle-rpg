@@ -1,0 +1,40 @@
+[
+  {
+    "id": "challenge-animal",
+    "label": "どうぶつ",
+    "conditions": { "categories": ["どうぶつ"] }
+  },
+  {
+    "id": "challenge-food",
+    "label": "たべもの",
+    "conditions": { "categories": ["たべもの"] }
+  },
+  {
+    "id": "challenge-fruit",
+    "label": "くだもの",
+    "conditions": { "categories": ["くだもの"] }
+  },
+  {
+    "id": "challenge-red-fruit",
+    "label": "あかいくだもの",
+    "conditions": {
+      "categories": ["くだもの"],
+      "facts": [{ "key": "color", "value": "あか" }]
+    }
+  },
+  {
+    "id": "challenge-vehicle",
+    "label": "のりもの",
+    "conditions": { "categories": ["のりもの"] }
+  },
+  {
+    "id": "challenge-emotion",
+    "label": "きもち",
+    "conditions": { "categories": ["きもち"] }
+  },
+  {
+    "id": "challenge-positive-emotion",
+    "label": "よいきもち",
+    "conditions": { "categories": ["よいきもち"] }
+  }
+]

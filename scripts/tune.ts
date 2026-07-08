@@ -1,6 +1,6 @@
 /** Tuning harness: try candidate fixes and report full-game clear rate. */
 import { ENEMIES } from '../src/data/enemies';
-import { WORDS } from '../src/data/words';
+import { WORDS } from '../src/data/gameWords';
 import {
   createInitialBattleState,
   applyPlayerAttack,

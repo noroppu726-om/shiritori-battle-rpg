@@ -1,0 +1,379 @@
+[
+  {
+    "id": "animal-neko",
+    "word": "ねこ",
+    "reading": "ねこ",
+    "normalized": "ねこ",
+    "mainCategory": "どうぶつ",
+    "categories": ["どうぶつ"],
+    "facts": [
+      { "key": "habitat", "value": "いえ", "label": "いえにいる" },
+      { "key": "sound", "value": "にゃー", "label": "にゃーとなく" }
+    ],
+    "hints": ["いえにいるどうぶつ", "にゃーとなく", "「ね」からはじまる", "2もじ"],
+    "kana": { "first": "ね", "last": "こ", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "animal-inu",
+    "word": "いぬ",
+    "reading": "いぬ",
+    "normalized": "いぬ",
+    "mainCategory": "どうぶつ",
+    "categories": ["どうぶつ"],
+    "facts": [
+      { "key": "habitat", "value": "いえ", "label": "いえにいる" },
+      { "key": "sound", "value": "わん", "label": "わんとなく" }
+    ],
+    "kana": { "first": "い", "last": "ぬ", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "animal-usagi",
+    "word": "うさぎ",
+    "reading": "うさぎ",
+    "normalized": "うさぎ",
+    "mainCategory": "どうぶつ",
+    "categories": ["どうぶつ"],
+    "facts": [
+      { "key": "body", "value": "みみ", "label": "みみがながい" },
+      { "key": "movement", "value": "はねる", "label": "ぴょんとはねる" }
+    ],
+    "kana": { "first": "う", "last": "ぎ", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "animal-zou",
+    "word": "ぞう",
+    "reading": "ぞう",
+    "normalized": "ぞう",
+    "mainCategory": "どうぶつ",
+    "categories": ["どうぶつ"],
+    "facts": [
+      { "key": "size", "value": "おおきい", "label": "おおきい" },
+      { "key": "body", "value": "はな", "label": "はながながい" }
+    ],
+    "kana": { "first": "ぞ", "last": "う", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "animal-tori",
+    "word": "とり",
+    "reading": "とり",
+    "normalized": "とり",
+    "mainCategory": "どうぶつ",
+    "categories": ["どうぶつ"],
+    "facts": [
+      { "key": "movement", "value": "とぶ", "label": "そらをとぶ" },
+      { "key": "body", "value": "はね", "label": "はねがある" }
+    ],
+    "kana": { "first": "と", "last": "り", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "food-ringo",
+    "word": "りんご",
+    "reading": "りんご",
+    "normalized": "りんご",
+    "mainCategory": "たべもの",
+    "categories": ["たべもの", "くだもの"],
+    "facts": [
+      { "key": "foodType", "value": "くだもの", "label": "くだもの" },
+      { "key": "color", "value": "あか", "label": "あかい" }
+    ],
+    "hints": ["くだもの", "あかいくだもの", "「り」からはじまる", "3もじ"],
+    "kana": { "first": "り", "last": "ご", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "food-ichigo",
+    "word": "いちご",
+    "reading": "いちご",
+    "normalized": "いちご",
+    "mainCategory": "たべもの",
+    "categories": ["たべもの", "くだもの"],
+    "facts": [
+      { "key": "foodType", "value": "くだもの", "label": "くだもの" },
+      { "key": "color", "value": "あか", "label": "あかい" }
+    ],
+    "kana": { "first": "い", "last": "ご", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "food-banana",
+    "word": "ばなな",
+    "reading": "ばなな",
+    "normalized": "ばなな",
+    "mainCategory": "たべもの",
+    "categories": ["たべもの", "くだもの"],
+    "facts": [
+      { "key": "foodType", "value": "くだもの", "label": "くだもの" },
+      { "key": "color", "value": "きいろ", "label": "きいろい" }
+    ],
+    "kana": { "first": "ば", "last": "な", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "food-onigiri",
+    "word": "おにぎり",
+    "reading": "おにぎり",
+    "normalized": "おにぎり",
+    "mainCategory": "たべもの",
+    "categories": ["たべもの", "ごはん"],
+    "facts": [
+      { "key": "foodType", "value": "ごはん", "label": "ごはん" },
+      { "key": "shape", "value": "さんかく", "label": "さんかく" }
+    ],
+    "kana": { "first": "お", "last": "り", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "food-curry",
+    "word": "かれー",
+    "reading": "かれー",
+    "normalized": "かれー",
+    "mainCategory": "たべもの",
+    "categories": ["たべもの", "りょうり"],
+    "facts": [
+      { "key": "foodType", "value": "りょうり", "label": "りょうり" },
+      { "key": "taste", "value": "からい", "label": "からい" }
+    ],
+    "kana": { "first": "か", "last": "れ", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "vehicle-kuruma",
+    "word": "くるま",
+    "reading": "くるま",
+    "normalized": "くるま",
+    "mainCategory": "のりもの",
+    "categories": ["のりもの"],
+    "facts": [
+      { "key": "place", "value": "どうろ", "label": "どうろをはしる" },
+      { "key": "movement", "value": "はしる", "label": "はしる" }
+    ],
+    "kana": { "first": "く", "last": "ま", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "vehicle-densha",
+    "word": "でんしゃ",
+    "reading": "でんしゃ",
+    "normalized": "でんしゃ",
+    "mainCategory": "のりもの",
+    "categories": ["のりもの"],
+    "facts": [
+      { "key": "place", "value": "せんろ", "label": "せんろをはしる" },
+      { "key": "movement", "value": "はしる", "label": "はしる" }
+    ],
+    "kana": { "first": "で", "last": "しゃ", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "vehicle-basu",
+    "word": "ばす",
+    "reading": "ばす",
+    "normalized": "ばす",
+    "mainCategory": "のりもの",
+    "categories": ["のりもの"],
+    "facts": [
+      { "key": "place", "value": "どうろ", "label": "どうろをはしる" },
+      { "key": "rideCount", "value": "おおい", "label": "たくさんのれる" }
+    ],
+    "kana": { "first": "ば", "last": "す", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "vehicle-hikouki",
+    "word": "ひこうき",
+    "reading": "ひこうき",
+    "normalized": "ひこうき",
+    "mainCategory": "のりもの",
+    "categories": ["のりもの"],
+    "facts": [
+      { "key": "place", "value": "そら", "label": "そらをとぶ" },
+      { "key": "movement", "value": "とぶ", "label": "とぶ" }
+    ],
+    "kana": { "first": "ひ", "last": "き", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "vehicle-jitensha",
+    "word": "じてんしゃ",
+    "reading": "じてんしゃ",
+    "normalized": "じてんしゃ",
+    "mainCategory": "のりもの",
+    "categories": ["のりもの"],
+    "facts": [
+      { "key": "place", "value": "どうろ", "label": "どうろをはしる" },
+      { "key": "fuel", "value": "ひと", "label": "ひとのちからでうごく" }
+    ],
+    "kana": { "first": "じ", "last": "しゃ", "length": 5 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "tool-enpitsu",
+    "word": "えんぴつ",
+    "reading": "えんぴつ",
+    "normalized": "えんぴつ",
+    "mainCategory": "どうぐ",
+    "categories": ["どうぐ", "ぶんぼうぐ"],
+    "facts": [
+      { "key": "use", "value": "かく", "label": "かくための" },
+      { "key": "material", "value": "き", "label": "きでできた" }
+    ],
+    "kana": { "first": "え", "last": "つ", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "tool-hasami",
+    "word": "はさみ",
+    "reading": "はさみ",
+    "normalized": "はさみ",
+    "mainCategory": "どうぐ",
+    "categories": ["どうぐ", "ぶんぼうぐ"],
+    "facts": [
+      { "key": "use", "value": "きる", "label": "きるための" },
+      { "key": "material", "value": "きんぞく", "label": "きんぞくの" }
+    ],
+    "kana": { "first": "は", "last": "み", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "tool-keshigomu",
+    "word": "けしごむ",
+    "reading": "けしごむ",
+    "normalized": "けしごむ",
+    "mainCategory": "どうぐ",
+    "categories": ["どうぐ", "ぶんぼうぐ"],
+    "facts": [
+      { "key": "use", "value": "けす", "label": "けすための" },
+      { "key": "material", "value": "ごむ", "label": "ごむの" }
+    ],
+    "kana": { "first": "け", "last": "む", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "tool-jougi",
+    "word": "じょうぎ",
+    "reading": "じょうぎ",
+    "normalized": "じょうぎ",
+    "mainCategory": "どうぐ",
+    "categories": ["どうぐ", "ぶんぼうぐ"],
+    "facts": [
+      { "key": "use", "value": "はかる", "label": "ながさをはかる" },
+      { "key": "size", "value": "ほそい", "label": "ほそい" }
+    ],
+    "kana": { "first": "じょ", "last": "ぎ", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "tool-kasa",
+    "word": "かさ",
+    "reading": "かさ",
+    "normalized": "かさ",
+    "mainCategory": "どうぐ",
+    "categories": ["どうぐ"],
+    "facts": [
+      { "key": "use", "value": "あめ", "label": "あめをよける" },
+      { "key": "place", "value": "そと", "label": "そとでつかう" }
+    ],
+    "kana": { "first": "か", "last": "さ", "length": 2 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "emotion-ureshii",
+    "word": "うれしい",
+    "reading": "うれしい",
+    "normalized": "うれしい",
+    "mainCategory": "きもち",
+    "categories": ["きもち", "よいきもち"],
+    "facts": [
+      { "key": "emotionTone", "value": "positive", "label": "よいきもち" },
+      { "key": "expression", "value": "えがお", "label": "えがおになる" }
+    ],
+    "kana": { "first": "う", "last": "い", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "emotion-tanoshii",
+    "word": "たのしい",
+    "reading": "たのしい",
+    "normalized": "たのしい",
+    "mainCategory": "きもち",
+    "categories": ["きもち", "よいきもち"],
+    "facts": [
+      { "key": "emotionTone", "value": "positive", "label": "よいきもち" },
+      { "key": "scene", "value": "あそび", "label": "あそぶときの" }
+    ],
+    "kana": { "first": "た", "last": "い", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "emotion-kanashii",
+    "word": "かなしい",
+    "reading": "かなしい",
+    "normalized": "かなしい",
+    "mainCategory": "きもち",
+    "categories": ["きもち"],
+    "facts": [
+      { "key": "emotionTone", "value": "negative", "label": "つらいきもち" },
+      { "key": "expression", "value": "なく", "label": "なきたくなる" }
+    ],
+    "kana": { "first": "か", "last": "い", "length": 4 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "emotion-okoru",
+    "word": "おこる",
+    "reading": "おこる",
+    "normalized": "おこる",
+    "mainCategory": "きもち",
+    "categories": ["きもち"],
+    "facts": [
+      { "key": "emotionTone", "value": "negative", "label": "いやなきもち" },
+      { "key": "intensity", "value": "つよい", "label": "つよいきもち" }
+    ],
+    "kana": { "first": "お", "last": "る", "length": 3 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  },
+  {
+    "id": "emotion-arigatou",
+    "word": "ありがとう",
+    "reading": "ありがとう",
+    "normalized": "ありがとう",
+    "mainCategory": "きもち",
+    "categories": ["きもち", "よいきもち"],
+    "facts": [
+      { "key": "emotionTone", "value": "positive", "label": "よいきもち" },
+      { "key": "expression", "value": "ことば", "label": "うれしいことば" }
+    ],
+    "kana": { "first": "あ", "last": "う", "length": 5 },
+    "source": { "type": "manual", "name": "sample" },
+    "reviewStatus": "approved"
+  }
+]

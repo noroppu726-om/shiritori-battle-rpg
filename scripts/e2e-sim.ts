@@ -15,7 +15,7 @@
  *   node scripts/e2e-sim.bundle.mjs --monte 500 -> full-game clear rate over N seeds
  */
 import { ENEMIES } from '../src/data/enemies';
-import { WORDS } from '../src/data/words';
+import { WORDS } from '../src/data/gameWords';
 import {
   createInitialBattleState,
   applyPlayerAttack,

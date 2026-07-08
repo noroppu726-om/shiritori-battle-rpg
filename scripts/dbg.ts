@@ -1,4 +1,4 @@
-import { WORDS } from '../src/data/words';
+import { WORDS } from '../src/data/gameWords';
 import { validatePlayerWord, isHiragana, isInDictionary } from '../src/logic/shiritori';
 const s = { lastChar: null, usedWords: new Set<string>() };
 let ok=0; const fails: string[]=[];

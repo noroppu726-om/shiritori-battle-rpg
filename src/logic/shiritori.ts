@@ -1,4 +1,4 @@
-import { findWord, getWordsByInitial } from '../data/words';
+import { findWord, getWordsByInitial } from '../data/gameWords';
 import { getFirstKey, getLastKey, isHiragana, isInvalidEnding, normalizeWordInput } from './kana';
 
 export { getFirstKey, getLastKey, isHiragana, isInvalidEnding, normalizeWordInput };

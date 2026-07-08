@@ -1,5 +1,5 @@
 /**
- * Dictionary QA for src/data/words.ts (spec section 6).
+ * Dictionary QA for src/data/gameWords.ts (spec section 6).
  *
  *   node scripts/validate-words.bundle.mjs
  *
@@ -8,7 +8,7 @@
  * candidates). NG-word / distribution findings are printed as warnings only,
  * since natural-language judgment calls are not fully automatable.
  */
-import { WORDS, CATEGORY_LABELS } from '../src/data/words';
+import { WORDS, CATEGORY_LABELS } from '../src/data/gameWords';
 import { getFirstKey, getLastKey, isHiragana, isInvalidEnding } from '../src/logic/kana';
 import type { WordCategory } from '../src/types';
 

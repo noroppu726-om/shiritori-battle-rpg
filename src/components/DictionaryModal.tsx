@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { CATEGORY_LABELS, WORDS } from '../data/words';
+import { CATEGORY_LABELS, WORDS } from '../data/gameWords';
 import type { WordCategory } from '../types';
 
 export interface DictionaryModalProps {

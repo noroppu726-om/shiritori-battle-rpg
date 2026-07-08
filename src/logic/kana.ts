@@ -1,7 +1,7 @@
 /**
  * Pure hiragana/mora utilities shared by the shiritori rules and the word
  * dictionary. Kept dependency-free (no import of ../data/words) so that
- * src/data/words.ts can use getFirstKey to index its lookup table without
+ * src/data/gameWords.ts can use getFirstKey to index its lookup table without
  * creating a circular import with src/logic/shiritori.ts.
  */
 

@@ -7,7 +7,7 @@ import {
   tryConsumeHirameki,
   type SkillId,
 } from '../data/skills';
-import { findWord, getWordsByInitial } from '../data/words';
+import { findWord, getWordsByInitial } from '../data/gameWords';
 import { useTurnTimer } from '../hooks/useTurnTimer';
 import {
   applyChanceDamage,

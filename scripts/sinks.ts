@@ -1,4 +1,4 @@
-import { WORDS } from '../src/data/words';
+import { WORDS } from '../src/data/gameWords';
 const heads = new Set(WORDS.map(w=>w.word[0]));
 const tails = new Set(WORDS.map(w=>w.word[w.word.length-1]));
 // sink = a tail char (not ん) that no word starts with

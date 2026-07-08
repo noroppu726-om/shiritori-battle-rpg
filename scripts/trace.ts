@@ -1,5 +1,5 @@
 import { ENEMIES } from '../src/data/enemies';
-import { WORDS } from '../src/data/words';
+import { WORDS } from '../src/data/gameWords';
 import { createInitialBattleState, applyPlayerAttack, applyEnemyAttack, applyChanceDamage, DEFAULT_PLAYER_MAX_HP } from '../src/logic/battle';
 import { validatePlayerWord, resolveEnemyTurn, getLastKey, endsWithN } from '../src/logic/shiritori';
 
