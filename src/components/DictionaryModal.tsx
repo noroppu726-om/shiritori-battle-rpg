@@ -1,27 +1,39 @@
 import { useMemo, useState } from 'react';
 
-import { CATEGORY_LABELS, WORDS } from '../data/gameWords';
 import { approvedQuestWords } from '../data/words/questDictionary';
 import type { WordEntry as QuestWordEntry } from '../data/words/wordTypes';
-import type { WordCategory } from '../types';
 
 export interface DictionaryModalProps {
   onClose: () => void;
 }
 
-const CATEGORY_ORDER: WordCategory[] = [
-  'animal',
-  'food',
-  'nature',
-  'tool',
-  'place',
-  'body',
-  'emotion',
-  'life',
-  'normal',
+const CATEGORY_ORDER = [
+  'どうぶつ',
+  'むし・みずのいきもの',
+  'たべもの',
+  'のみもの',
+  'のりもの',
+  'どうぐ',
+  'いえ・くらし',
+  'がっこう',
+  'まち・しせつ',
+  'しぜん',
+  'しょくぶつ',
+  'てんき・きせつ',
+  'からだ',
+  'きもち',
+  'うごき・アクション',
+  'あそび',
+  'スポーツ',
+  'おんがく',
+  'ふく・もちもの',
+  'しごと・ひと',
+  'いろ・かたち',
+  'ぎょうじ・イベント',
+  'ファンタジー・ものがたり',
+  'カタカナ語',
+  'そのた日常語',
 ];
-
-type DictionaryMode = 'game' | 'registered';
 
 function matchesQuestQuery(entry: QuestWordEntry, query: string): boolean {
   if (query === '') return true;
@@ -39,17 +51,8 @@ function matchesQuestQuery(entry: QuestWordEntry, query: string): boolean {
 
 export function DictionaryModal({ onClose }: DictionaryModalProps) {
   const [query, setQuery] = useState('');
-  const [mode, setMode] = useState<DictionaryMode>('game');
 
-  const gameGroups = useMemo(() => {
-    const trimmed = query.trim();
-    return CATEGORY_ORDER.map((category) => ({
-      category,
-      words: WORDS.filter((entry) => entry.category === category && entry.word.includes(trimmed)),
-    })).filter((group) => group.words.length > 0);
-  }, [query]);
-
-  const registeredGroups = useMemo(() => {
+  const groups = useMemo(() => {
     const trimmed = query.trim();
     const grouped = new Map<string, QuestWordEntry[]>();
 
@@ -63,15 +66,13 @@ export function DictionaryModal({ onClose }: DictionaryModalProps) {
       }
     }
 
-    return [...grouped.entries()].map(([category, words]) => ({ category, words }));
+    return CATEGORY_ORDER.map((category) => ({
+      category,
+      words: grouped.get(category) ?? [],
+    })).filter((group) => group.words.length > 0);
   }, [query]);
 
-  const gameTotalCount = useMemo(() => gameGroups.reduce((sum, group) => sum + group.words.length, 0), [gameGroups]);
-  const registeredTotalCount = useMemo(
-    () => registeredGroups.reduce((sum, group) => sum + group.words.length, 0),
-    [registeredGroups],
-  );
-  const totalCount = mode === 'game' ? gameTotalCount : registeredTotalCount;
+  const totalCount = useMemo(() => groups.reduce((sum, group) => sum + group.words.length, 0), [groups]);
 
   return (
     <div className="dictionary-overlay" role="presentation" onClick={onClose}>
@@ -83,113 +84,39 @@ export function DictionaryModal({ onClose }: DictionaryModalProps) {
         onClick={(event) => event.stopPropagation()}
       >
         <header className="dictionary-header">
-          <h2 id="dictionary-heading">
-            {mode === 'game' ? `辞書 (${WORDS.length}語)` : `登録辞書 (${approvedQuestWords.length}語)`}
-          </h2>
+          <h2 id="dictionary-heading">ゲーム辞書 ({approvedQuestWords.length}語)</h2>
           <button className="dictionary-close-button" type="button" onClick={onClose} aria-label="辞書を閉じる">
             ×
           </button>
         </header>
-
-        <div className="dictionary-tabs" role="tablist" aria-label="辞書の種類">
-          <button
-            className={mode === 'game' ? 'dictionary-tab dictionary-tab-active' : 'dictionary-tab'}
-            type="button"
-            role="tab"
-            aria-selected={mode === 'game'}
-            onClick={() => setMode('game')}
-          >
-            ゲーム辞書
-          </button>
-          <button
-            className={mode === 'registered' ? 'dictionary-tab dictionary-tab-active' : 'dictionary-tab'}
-            type="button"
-            role="tab"
-            aria-selected={mode === 'registered'}
-            onClick={() => setMode('registered')}
-          >
-            登録辞書
-          </button>
-        </div>
 
         <input
           className="dictionary-search"
           type="text"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder={mode === 'game' ? 'ひらがなで絞り込み' : '単語・カテゴリ・factで絞り込み'}
+          placeholder="単語・カテゴリ・ヒントで絞り込み"
           aria-label="辞書の単語を絞り込み"
         />
 
         <p className="dictionary-count">{totalCount}件表示中</p>
 
         <div className="dictionary-body">
-          {mode === 'game' ? (
-            <>
-              {gameGroups.length === 0 && <p className="dictionary-empty">あてはまる言葉がありません</p>}
-              {gameGroups.map((group) => (
-                <div className="dictionary-category" key={group.category}>
-                  <h3>
-                    {CATEGORY_LABELS[group.category]} ({group.words.length})
-                  </h3>
-                  <ul className="dictionary-word-list">
-                    {group.words.map((entry) => (
-                      <li className="dictionary-word-chip" key={entry.word}>
-                        {entry.word}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </>
-          ) : (
-            <>
-              {registeredGroups.length === 0 && <p className="dictionary-empty">あてはまる登録語がありません</p>}
-              {registeredGroups.map((group) => (
-                <div className="dictionary-category" key={group.category}>
-                  <h3>
-                    {group.category} ({group.words.length})
-                  </h3>
-                  <ul className="registered-word-list">
-                    {group.words.map((entry) => (
-                      <li className="registered-word-item" key={entry.id}>
-                        <div className="registered-word-main">
-                          <strong>{entry.word}</strong>
-                          <span>{entry.reading}</span>
-                        </div>
-                        <div className="registered-word-meta">
-                          {entry.categories.map((category) => (
-                            <span key={category}>{category}</span>
-                          ))}
-                        </div>
-                        {entry.facts.length > 0 && (
-                          <dl className="registered-word-facts">
-                            {entry.facts.map((fact) => (
-                              <div key={`${entry.id}-${fact.key}-${fact.value}`}>
-                                <dt>{fact.key}</dt>
-                                <dd>{fact.label}</dd>
-                              </div>
-                            ))}
-                          </dl>
-                        )}
-                        <p className="registered-word-source">
-                          source: {entry.source.name ?? entry.source.type}
-                          {'dictionary' in entry.source && entry.source.dictionary ? ` / ${entry.source.dictionary}` : ''}
-                          {'candidateId' in entry.source && entry.source.candidateId ? ` / ${entry.source.candidateId}` : ''}
-                          {'autoFlags' in entry.source && entry.source.autoFlags && entry.source.autoFlags.length > 0
-                            ? ` / ${entry.source.autoFlags.join(', ')}`
-                            : ''}
-                        </p>
-                        {entry.hints && entry.hints.length > 0 && (
-                          <p className="registered-word-hints">ヒント: {entry.hints.join(' / ')}</p>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </>
-          )}
+          {groups.length === 0 && <p className="dictionary-empty">あてはまる言葉がありません</p>}
+          {groups.map((group) => (
+            <div className="dictionary-category" key={group.category}>
+              <h3>
+                {group.category} ({group.words.length})
+              </h3>
+              <ul className="dictionary-word-list">
+                {group.words.map((entry) => (
+                  <li className="dictionary-word-chip" key={entry.id}>
+                    {entry.word}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </section>
     </div>

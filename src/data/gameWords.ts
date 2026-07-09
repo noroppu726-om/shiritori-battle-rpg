@@ -11,7 +11,7 @@ export const CATEGORY_LABELS: Record<WordCategory, string> = {
   body: 'からだ',
   emotion: 'きもち',
   life: 'せいかつ',
-  normal: 'ふつう',
+  normal: 'そのた日常語',
 };
 
 const CURATED_WORDS: WordEntry[] = [
@@ -174,21 +174,37 @@ const QUEST_GAME_WORDS: WordEntry[] = approvedQuestWords.map((entry) => ({
 function questCategoryToGameCategory(category: string): WordCategory {
   switch (category) {
     case 'どうぶつ':
+    case 'むし・みずのいきもの':
       return 'animal';
     case 'たべもの':
+    case 'のみもの':
+    case 'カタカナ語':
       return 'food';
     case 'しぜん':
+    case 'しょくぶつ':
+    case 'てんき・きせつ':
       return 'nature';
     case 'どうぐ':
+    case 'のりもの':
+    case 'ふく・もちもの':
+    case 'いろ・かたち':
       return 'tool';
     case 'きもち':
       return 'emotion';
     case 'からだ':
       return 'body';
     case 'がっこう':
-    case 'いえ':
-    case 'まち':
+    case 'いえ・くらし':
+    case 'まち・しせつ':
       return 'place';
+    case 'うごき・アクション':
+    case 'あそび':
+    case 'スポーツ':
+    case 'おんがく':
+    case 'しごと・ひと':
+    case 'ぎょうじ・イベント':
+    case 'ファンタジー・ものがたり':
+      return 'life';
     default:
       return 'normal';
   }
