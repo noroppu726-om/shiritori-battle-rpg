@@ -1,5 +1,6 @@
 import type { WordCategory, WordEntry } from '../types';
-import { getFirstKey } from '../logic/kana';
+import { getFirstKey } from '../logic/kana.ts';
+import { approvedQuestWords } from './words/questDictionary.ts';
 
 export const CATEGORY_LABELS: Record<WordCategory, string> = {
   animal: 'どうぶつ',
@@ -13,7 +14,7 @@ export const CATEGORY_LABELS: Record<WordCategory, string> = {
   normal: 'ふつう',
 };
 
-export const WORDS: WordEntry[] = [
+const CURATED_WORDS: WordEntry[] = [
   // animal (20)
   { word: 'ねこ', category: 'animal' },
   { word: 'いぬ', category: 'animal' },
@@ -164,6 +165,41 @@ export const WORDS: WordEntry[] = [
   { word: 'あそび', category: 'life' },
   { word: 'ゆめ', category: 'life' },
 ];
+
+const QUEST_GAME_WORDS: WordEntry[] = approvedQuestWords.map((entry) => ({
+  word: entry.word,
+  category: questCategoryToGameCategory(entry.mainCategory),
+}));
+
+function questCategoryToGameCategory(category: string): WordCategory {
+  switch (category) {
+    case 'どうぶつ':
+      return 'animal';
+    case 'たべもの':
+      return 'food';
+    case 'しぜん':
+      return 'nature';
+    case 'どうぐ':
+      return 'tool';
+    case 'きもち':
+      return 'emotion';
+    case 'からだ':
+      return 'body';
+    case 'がっこう':
+    case 'いえ':
+    case 'まち':
+      return 'place';
+    default:
+      return 'normal';
+  }
+}
+
+const seenWords = new Set<string>();
+export const WORDS: WordEntry[] = [...CURATED_WORDS, ...QUEST_GAME_WORDS].filter((entry) => {
+  if (seenWords.has(entry.word)) return false;
+  seenWords.add(entry.word);
+  return true;
+});
 
 const WORD_INDEX = new Map(WORDS.map((entry) => [entry.word, entry]));
 

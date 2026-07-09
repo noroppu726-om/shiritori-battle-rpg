@@ -172,6 +172,14 @@ export function DictionaryModal({ onClose }: DictionaryModalProps) {
                             ))}
                           </dl>
                         )}
+                        <p className="registered-word-source">
+                          source: {entry.source.name ?? entry.source.type}
+                          {'dictionary' in entry.source && entry.source.dictionary ? ` / ${entry.source.dictionary}` : ''}
+                          {'candidateId' in entry.source && entry.source.candidateId ? ` / ${entry.source.candidateId}` : ''}
+                          {'autoFlags' in entry.source && entry.source.autoFlags && entry.source.autoFlags.length > 0
+                            ? ` / ${entry.source.autoFlags.join(', ')}`
+                            : ''}
+                        </p>
                         {entry.hints && entry.hints.length > 0 && (
                           <p className="registered-word-hints">ヒント: {entry.hints.join(' / ')}</p>
                         )}

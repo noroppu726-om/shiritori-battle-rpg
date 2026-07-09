@@ -848,6 +848,15 @@ button {
   line-height: 1.45;
 }
 
+.registered-word-source {
+  margin: 0;
+  color: #7d8798;
+  font-size: 0.74rem;
+  font-weight: 800;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
 .result-screen h1 {
   margin: 0;
   color: #412609;

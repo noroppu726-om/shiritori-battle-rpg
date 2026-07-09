@@ -12,6 +12,9 @@ export type WordSource =
   | {
       type: 'sudachi';
       name?: string;
+      dictionary?: 'core' | 'small';
+      candidateId?: string;
+      autoFlags?: string[];
     };
 
 export type ReviewStatus = 'approved' | 'needs_review' | 'rejected';

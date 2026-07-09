@@ -10,6 +10,7 @@
     "test:r53": "node scripts/e2e-sim.bundle.mjs --monte 200",
     "validate:words": "node scripts/validate-words.bundle.mjs",
     "word:candidates": "node --experimental-strip-types tools/sudachi/build-word-candidates.ts",
+    "word:promote": "node --experimental-strip-types tools/sudachi/promote-word-candidates.ts",
     "validate:quest-words": "node --experimental-strip-types tools/sudachi/validate-word-data.ts"
   },
   "dependencies": {
