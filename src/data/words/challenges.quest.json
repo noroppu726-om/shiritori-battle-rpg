@@ -237,36 +237,6 @@
     }
   },
   {
-    "id": "challenge-school-tools",
-    "label": "がっこうのどうぐ",
-    "conditions": {
-      "categories": [
-        "どうぐ"
-      ],
-      "facts": [
-        {
-          "key": "place",
-          "value": "がっこう"
-        }
-      ]
-    }
-  },
-  {
-    "id": "challenge-sea-life",
-    "label": "うみのいきもの",
-    "conditions": {
-      "categories": [
-        "むし・みずのいきもの"
-      ],
-      "facts": [
-        {
-          "key": "habitat",
-          "value": "うみ"
-        }
-      ]
-    }
-  },
-  {
     "id": "challenge-katakana",
     "label": "カタカナのことば",
     "conditions": {

@@ -52,27 +52,19 @@ function matchesQuestQuery(entry: QuestWordEntry, query: string): boolean {
 export function DictionaryModal({ onClose }: DictionaryModalProps) {
   const [query, setQuery] = useState('');
 
-  const groups = useMemo(() => {
+  const filteredWords = useMemo(() => {
     const trimmed = query.trim();
-    const grouped = new Map<string, QuestWordEntry[]>();
-
-    for (const entry of approvedQuestWords) {
-      if (!matchesQuestQuery(entry, trimmed)) continue;
-      const words = grouped.get(entry.mainCategory);
-      if (words) {
-        words.push(entry);
-      } else {
-        grouped.set(entry.mainCategory, [entry]);
-      }
-    }
-
-    return CATEGORY_ORDER.map((category) => ({
-      category,
-      words: grouped.get(category) ?? [],
-    })).filter((group) => group.words.length > 0);
+    return approvedQuestWords.filter((entry) => matchesQuestQuery(entry, trimmed));
   }, [query]);
 
-  const totalCount = useMemo(() => groups.reduce((sum, group) => sum + group.words.length, 0), [groups]);
+  const groups = useMemo(() => {
+    return CATEGORY_ORDER.map((category) => ({
+      category,
+      words: filteredWords.filter((entry) => entry.mainCategory === category || entry.categories.includes(category)),
+    })).filter((group) => group.words.length > 0);
+  }, [filteredWords]);
+
+  const totalCount = filteredWords.length;
 
   return (
     <div className="dictionary-overlay" role="presentation" onClick={onClose}>

@@ -240,29 +240,40 @@ function hira(word: string): string {
 }
 
 const drafts: Draft[] = [];
-const seen = new Set<string>();
+const seen = new Map<string, Draft>();
 const counts = new Map<MainCategory, number>();
+
+function hasKatakana(word: string): boolean {
+  return /[ァ-ヶ]/.test(word);
+}
 
 function add(mainCategory: MainCategory, word: string, categories: string[] = [], facts: WordFact[] = []): void {
   const reading = normalizeKana(hira(word));
   if (!/^[ぁ-んー]+$/.test(reading)) return;
   if (reading.length < 2 || reading.length > 14) return;
-  if (seen.has(reading)) return;
+  const existing = seen.get(reading);
+  if (existing) {
+    if (mainCategory === 'カタカナ語' || hasKatakana(word)) {
+      existing.categories = [...new Set([...(existing.categories ?? []), 'カタカナ語'])];
+    }
+    return;
+  }
   if ((counts.get(mainCategory) ?? 0) >= targets[mainCategory]) return;
-  seen.add(reading);
+  const entryCategories = [mainCategory, ...categories];
+  if (hasKatakana(word)) entryCategories.push('カタカナ語');
+  const draft: Draft = {
+    word,
+    mainCategory,
+    categories: [...new Set(entryCategories)],
+    facts,
+  };
+  seen.set(reading, draft);
   counts.set(mainCategory, (counts.get(mainCategory) ?? 0) + 1);
-  drafts.push({ word, mainCategory, categories: [mainCategory, ...categories], facts });
+  drafts.push(draft);
 }
 
 for (const [category, spec] of Object.entries(specs) as [MainCategory, Spec][]) {
   for (const seed of spec.seeds) add(category, seed, spec.categories, [fact(spec.factKey, category, category)]);
-  for (const left of spec.left) {
-    for (const right of spec.right) {
-      add(category, `${left}${right}`, spec.categories, [fact(spec.factKey, left, left)]);
-      if ((counts.get(category) ?? 0) >= targets[category]) break;
-    }
-    if ((counts.get(category) ?? 0) >= targets[category]) break;
-  }
 }
 
 const backupWords: Record<MainCategory, string[]> = {
@@ -297,43 +308,6 @@ for (const [category, backups] of Object.entries(backupWords) as [MainCategory, 
   for (const word of backups) add(category, word, [category], [fact(specs[category].factKey, category, category)]);
 }
 
-const suffixes: Record<MainCategory, string[]> = {
-  'どうぶつ': words('のこ のあかちゃん のなかま みたいなどうぶつ'),
-  'むし・みずのいきもの': words('のこ のなかま のすみか みたいないきもの'),
-  'たべもの': words('あじ いり のぐ のせ さら'),
-  'のみもの': words('あじ いり かっぷ ぼとる'),
-  'のりもの': words('のりば ごっこ えき せき'),
-  'どうぐ': words('いれ ばこ たて せっと'),
-  'いえ・くらし': words('まわり おきば すみ せっと かざり'),
-  'がっこう': words('かかり れんしゅう じかん せっと'),
-  'まち・しせつ': words('まえ うら ひろば あんない まわり'),
-  'しぜん': words('のひかり のおと のにおい まわり'),
-  'しょくぶつ': words('のは のみ のたね のえだ'),
-  'てんき・きせつ': words('のひ のあさ のよる のそら'),
-  'からだ': words('まわり のうごき のちから のけあ'),
-  'きもち': words('なきもち のこころ のひ のかお'),
-  'うごき・アクション': words('れんしゅう ごっこ あそび たいむ'),
-  'あそび': words('せっと たいかい じかん どうぐ'),
-  'スポーツ': words('れんしゅう たいかい じかん どうぐ'),
-  'おんがく': words('れんしゅう たいむ あそび かい'),
-  'ふく・もちもの': words('いれ せっと かけ ばこ'),
-  'しごと・ひと': words('のしごと のどうぐ のばしょ のてつだい'),
-  'いろ・かたち': words('もよう いろ かたち せっと'),
-  'ぎょうじ・イベント': words('のひ じゅんび かざり あそび'),
-  'ファンタジー・ものがたり': words('のはなし のぼうけん のひみつ のちず'),
-  'カタカナ語': words('セット カード ボックス タイム'),
-  'そのた日常語': words('のこと のはなし のじかん のやくそく'),
-};
-
-for (const [category, spec] of Object.entries(specs) as [MainCategory, Spec][]) {
-  outer: for (const base of [...spec.right, ...spec.seeds]) {
-    for (const suffix of suffixes[category]) {
-      add(category, `${base}${suffix}`, spec.categories, [fact(spec.factKey, category, category)]);
-      if ((counts.get(category) ?? 0) >= targets[category]) break outer;
-    }
-  }
-}
-
 function entryFromDraft(draft: Draft, index: number): WordEntry {
   const reading = normalizeKana(hira(draft.word));
   const kana = getKanaInfo(reading);
@@ -359,12 +333,6 @@ const finalCounts = Object.fromEntries(
   ]),
 );
 
-for (const [category, target] of Object.entries(targets)) {
-  if (finalCounts[category] !== target) {
-    throw new Error(`${category}: expected ${target}, got ${finalCounts[category] ?? 0}`);
-  }
-}
-
 const challenges: Challenge[] = (Object.keys(targets) as MainCategory[]).map((category) => ({
   id: `challenge-${String(Object.keys(targets).indexOf(category) + 1).padStart(2, '0')}`,
   label: category,
@@ -373,8 +341,6 @@ const challenges: Challenge[] = (Object.keys(targets) as MainCategory[]).map((ca
 
 challenges.push(
   { id: 'challenge-food-3kana', label: '3もじのたべもの', conditions: { categories: ['たべもの'], kana: { length: 3 } } },
-  { id: 'challenge-school-tools', label: 'がっこうのどうぐ', conditions: { categories: ['どうぐ'], facts: [{ key: 'place', value: 'がっこう' }] } },
-  { id: 'challenge-sea-life', label: 'うみのいきもの', conditions: { categories: ['むし・みずのいきもの'], facts: [{ key: 'habitat', value: 'うみ' }] } },
   { id: 'challenge-katakana', label: 'カタカナのことば', conditions: { categories: ['カタカナ語'] } },
 );
 
