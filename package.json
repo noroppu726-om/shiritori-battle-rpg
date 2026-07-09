@@ -11,7 +11,8 @@
     "validate:words": "node scripts/validate-words.bundle.mjs",
     "word:candidates": "node --experimental-strip-types tools/sudachi/build-word-candidates.ts",
     "word:promote": "node --experimental-strip-types tools/sudachi/promote-word-candidates.ts",
-    "validate:quest-words": "node --experimental-strip-types tools/sudachi/validate-word-data.ts"
+    "validate:quest-words": "node --experimental-strip-types tools/sudachi/validate-word-data.ts",
+    "word:curated": "node --experimental-strip-types tools/wordquest/build-curated-dictionary.ts"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

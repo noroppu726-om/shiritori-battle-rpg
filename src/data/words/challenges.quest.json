@@ -1,40 +1,278 @@
 [
   {
-    "id": "challenge-animal",
+    "id": "challenge-01",
     "label": "どうぶつ",
-    "conditions": { "categories": ["どうぶつ"] }
-  },
-  {
-    "id": "challenge-food",
-    "label": "たべもの",
-    "conditions": { "categories": ["たべもの"] }
-  },
-  {
-    "id": "challenge-fruit",
-    "label": "くだもの",
-    "conditions": { "categories": ["くだもの"] }
-  },
-  {
-    "id": "challenge-red-fruit",
-    "label": "あかいくだもの",
     "conditions": {
-      "categories": ["くだもの"],
-      "facts": [{ "key": "color", "value": "あか" }]
+      "categories": [
+        "どうぶつ"
+      ]
     }
   },
   {
-    "id": "challenge-vehicle",
+    "id": "challenge-02",
+    "label": "むし・みずのいきもの",
+    "conditions": {
+      "categories": [
+        "むし・みずのいきもの"
+      ]
+    }
+  },
+  {
+    "id": "challenge-03",
+    "label": "たべもの",
+    "conditions": {
+      "categories": [
+        "たべもの"
+      ]
+    }
+  },
+  {
+    "id": "challenge-04",
+    "label": "のみもの",
+    "conditions": {
+      "categories": [
+        "のみもの"
+      ]
+    }
+  },
+  {
+    "id": "challenge-05",
     "label": "のりもの",
-    "conditions": { "categories": ["のりもの"] }
+    "conditions": {
+      "categories": [
+        "のりもの"
+      ]
+    }
   },
   {
-    "id": "challenge-emotion",
+    "id": "challenge-06",
+    "label": "どうぐ",
+    "conditions": {
+      "categories": [
+        "どうぐ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-07",
+    "label": "いえ・くらし",
+    "conditions": {
+      "categories": [
+        "いえ・くらし"
+      ]
+    }
+  },
+  {
+    "id": "challenge-08",
+    "label": "がっこう",
+    "conditions": {
+      "categories": [
+        "がっこう"
+      ]
+    }
+  },
+  {
+    "id": "challenge-09",
+    "label": "まち・しせつ",
+    "conditions": {
+      "categories": [
+        "まち・しせつ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-10",
+    "label": "しぜん",
+    "conditions": {
+      "categories": [
+        "しぜん"
+      ]
+    }
+  },
+  {
+    "id": "challenge-11",
+    "label": "しょくぶつ",
+    "conditions": {
+      "categories": [
+        "しょくぶつ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-12",
+    "label": "てんき・きせつ",
+    "conditions": {
+      "categories": [
+        "てんき・きせつ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-13",
+    "label": "からだ",
+    "conditions": {
+      "categories": [
+        "からだ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-14",
     "label": "きもち",
-    "conditions": { "categories": ["きもち"] }
+    "conditions": {
+      "categories": [
+        "きもち"
+      ]
+    }
   },
   {
-    "id": "challenge-positive-emotion",
-    "label": "よいきもち",
-    "conditions": { "categories": ["よいきもち"] }
+    "id": "challenge-15",
+    "label": "うごき・アクション",
+    "conditions": {
+      "categories": [
+        "うごき・アクション"
+      ]
+    }
+  },
+  {
+    "id": "challenge-16",
+    "label": "あそび",
+    "conditions": {
+      "categories": [
+        "あそび"
+      ]
+    }
+  },
+  {
+    "id": "challenge-17",
+    "label": "スポーツ",
+    "conditions": {
+      "categories": [
+        "スポーツ"
+      ]
+    }
+  },
+  {
+    "id": "challenge-18",
+    "label": "おんがく",
+    "conditions": {
+      "categories": [
+        "おんがく"
+      ]
+    }
+  },
+  {
+    "id": "challenge-19",
+    "label": "ふく・もちもの",
+    "conditions": {
+      "categories": [
+        "ふく・もちもの"
+      ]
+    }
+  },
+  {
+    "id": "challenge-20",
+    "label": "しごと・ひと",
+    "conditions": {
+      "categories": [
+        "しごと・ひと"
+      ]
+    }
+  },
+  {
+    "id": "challenge-21",
+    "label": "いろ・かたち",
+    "conditions": {
+      "categories": [
+        "いろ・かたち"
+      ]
+    }
+  },
+  {
+    "id": "challenge-22",
+    "label": "ぎょうじ・イベント",
+    "conditions": {
+      "categories": [
+        "ぎょうじ・イベント"
+      ]
+    }
+  },
+  {
+    "id": "challenge-23",
+    "label": "ファンタジー・ものがたり",
+    "conditions": {
+      "categories": [
+        "ファンタジー・ものがたり"
+      ]
+    }
+  },
+  {
+    "id": "challenge-24",
+    "label": "カタカナ語",
+    "conditions": {
+      "categories": [
+        "カタカナ語"
+      ]
+    }
+  },
+  {
+    "id": "challenge-25",
+    "label": "そのた日常語",
+    "conditions": {
+      "categories": [
+        "そのた日常語"
+      ]
+    }
+  },
+  {
+    "id": "challenge-food-3kana",
+    "label": "3もじのたべもの",
+    "conditions": {
+      "categories": [
+        "たべもの"
+      ],
+      "kana": {
+        "length": 3
+      }
+    }
+  },
+  {
+    "id": "challenge-school-tools",
+    "label": "がっこうのどうぐ",
+    "conditions": {
+      "categories": [
+        "どうぐ"
+      ],
+      "facts": [
+        {
+          "key": "place",
+          "value": "がっこう"
+        }
+      ]
+    }
+  },
+  {
+    "id": "challenge-sea-life",
+    "label": "うみのいきもの",
+    "conditions": {
+      "categories": [
+        "むし・みずのいきもの"
+      ],
+      "facts": [
+        {
+          "key": "habitat",
+          "value": "うみ"
+        }
+      ]
+    }
+  },
+  {
+    "id": "challenge-katakana",
+    "label": "カタカナのことば",
+    "conditions": {
+      "categories": [
+        "カタカナ語"
+      ]
+    }
   }
 ]
